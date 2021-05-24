@@ -1,0 +1,307 @@
+# File = guicode.kv
+Wmanager:
+    Startscreen:
+    Mainscreen:
+    Addscreen:
+    Deletescreen:
+
+<Special@Button>:
+    height: dp(80)
+    background_color: 1,1,1,0.05
+    font_size: dp(20)
+
+<Startscreen>:
+    name: "startscreen"
+    FloatLayout:
+        orientation: "vertical"
+        canvas.before:
+            # Hintergrund setzen
+            Rectangle:
+                pos: self.pos
+                size: self.size
+                source: 'Bilder/Hintergrund14.png'
+        Label:
+            text: "Link-App"
+            background_color: 0,0,0,0
+            foreground_color: 1,1,1,1
+            font_size: dp(20)
+            size_hint: 1, 0.15 
+            pos_hint: {"x": 0,"top": .98}
+        
+        Button:
+            id: starten
+            text: "Starten"
+            height: dp(80)
+            background_color: 1,1,1,0.05
+            size_hint: 0.75, 0.15
+            pos_hint: {"x": 0.125,"top": .6}
+            on_release:
+                root.starten()
+                root.manager.transition.direction = "left"
+                
+        Button:
+            id: beenden
+            text: "Beenden"
+            height: dp(80)
+            background_color: 1,1,1,0.05
+            size_hint: 0.75, 0.15
+            pos_hint: {"x": 0.125,"top": .45}
+            on_release:
+                root.beenden()
+<Mainscreen>:
+    name: "mainscreen"
+    rv:rv
+    BoxLayout:
+        orientation: "vertical"
+        canvas.before:
+            Rectangle:
+                pos: self.pos
+                size: self.size
+                source: 'Bilder/Hintergrund14.png'
+        Label:
+            text: "Menü"
+            font_size: dp(20)
+            size_hint_y: None
+
+        Button:
+            id: zurueck_start
+            text: "Zurück"
+            size_hint_y: None
+            height: dp(80)
+            background_color: 1,1,1,0.05
+            on_release:
+                app.root.current = "startscreen" 
+                root.manager.transition.direction = "right"
+
+        GridLayout:
+            size_hint_y: None
+            cols: 2
+            rows: 1
+            height: self.minimum_height
+
+            Button:
+                id: Einfuegen
+                text: "Einfügen"
+                size_hint_y: None
+                height: dp(80)
+                spacing: 5,5
+                col: 1
+                row: 1
+                background_color: 1,1,1,0.05
+                on_release:
+                    app.root.current = "addscreen" 
+                    root.manager.transition.direction = "left"
+
+            Button:
+                id: loeschen
+                size_hint_y: None
+                text: "Löschen"
+                spacing: 5,5
+                height: dp(80)
+                col: 2
+                row: 1
+                background_color: 1,1,1,0.05
+                on_release:
+                    app.root.current = "del_screen" 
+                    root.manager.transition.direction = "left"
+        
+        RV:
+            id: rv
+            viewclass: "Special"
+            RecycleBoxLayout:
+                default_size: None, 100
+                default_size_hint: 1, None
+                size_hint_y: None
+                height: self.minimum_height
+                orientation: "vertical"
+                font_size: dp(20)
+
+<Addscreen>:
+    name: "addscreen"
+    BoxLayout:
+        orientation: "vertical"
+        canvas.before:
+            Rectangle:
+                pos: self.pos
+                size: self.size
+                source: 'Bilder/Hintergrund14.png'
+        Label:
+            text: "Element hinzufügen"
+            font_size: dp(20)
+            size_hint_y: None
+
+        GridLayout:
+            size_hint_y: None
+            cols: 2
+            height: self.minimum_height
+            canvas.before:
+                Color:
+                    rgba: 1,1,1,0.05
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+                
+            Button:
+                id: back
+                text: "Abbrechen"
+                size_hint_y: None
+                height: dp(80)
+                col: 1
+                row: 0
+                background_color: 1,1,1,0.05
+                on_release:
+                    app.root.current = "mainscreen" 
+                    root.manager.transition.direction = "right"
+            
+            Button:
+                id: confirm
+                size_hint_y: None
+                text: "Bestätigen"
+                spacing: 5,5
+                height: dp(80)
+                col: 2
+                row: 0
+                background_color: 1,1,1,0.05
+                on_release:
+                    root.add()
+                    app.root.current = "mainscreen" 
+                    root.manager.transition.direction = "right"
+        
+            Label:
+                id: name
+                text: "Name:"
+                font_size: dp(20)
+                size_hint_y: None
+                spacing: 5,5
+                foreground_color: 1,1,1,1
+                col: 1
+                row: 1
+
+            TextInput:
+                id: add_text
+                col: 2
+                row: 1
+                multiline: False
+                foreground_color: 1,1,1,1
+                background_color: 1,1,1,0.05
+                font_size: 20
+                spacing: 5,5
+            
+
+        BoxLayout:
+            orientation: "vertical"
+            Label:
+                text: "Link"
+                font_size: dp(20)
+                size_hint_y: None
+        
+            TextInput:
+                id: add_inhalt
+                size_hint_y: None
+                multiline: True
+                size_hint_x: 0.9
+                background_color: 1,1,1,0.05
+                pos_hint: {"x": 0.05}
+                font_size: 20
+                foreground_color: 1,1,1,1
+
+<Deletescreen>:
+    name: "del_screen"
+    BoxLayout:
+        id: eins
+        orientation: "vertical"
+        canvas.before:
+            Rectangle:
+                pos: self.pos
+                size: self.size
+                source: 'Bilder/Hintergrund14.png'
+        Label:
+            text: "Element löschen"
+            font_size: dp(20)
+            size_hint_y: None
+
+        GridLayout:
+            size_hint_y: None
+            cols: 2
+            height: self.minimum_height
+            canvas.before:
+                Color:
+                    rgba: 1,1,1,0.05
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+                    
+            Button:
+                id: back
+                text: "Abbrechen"
+                size_hint_y: None
+                height: dp(80)
+                col: 1
+                row: 0
+                background_color: 1,1,1,0.05
+                on_release:
+                    app.root.current = "mainscreen" 
+                    root.manager.transition.direction = "right"
+                
+            Button:
+                id: enter_d
+                size_hint_y: None
+                text: "Bestätigen"
+                spacing: 5,5
+                height: dp(80)
+                col: 2
+                row: 0
+                background_color: 1,1,1,0.05
+                on_press:
+                    root.delete()
+                    app.root.current = "mainscreen" 
+                    root.manager.transition.direction = "right"
+                    root.ids.status_label.text = "Status: ----"
+            
+            Label:
+                text: "Nummer:"
+                font_size: dp(20)
+                size_hint_y: None
+                spacing: 5,5
+                foreground_color: 1,1,1,1
+                col: 1
+                row: 1
+
+            TextInput:
+                id: nummer_loeschen
+                col: 2
+                row: 1
+                multiline: False
+                foreground_color: 1,1,1,1
+                background_color: 1,1,1,0.05
+                font_size: 20
+                spacing: 5,5
+
+            Label:
+                text: "Name:"
+                font_size: dp(20)
+                size_hint_y: None
+                spacing: 5,5
+                foreground_color: 1,1,1,1
+                col: 1
+                row: 3
+
+            TextInput:
+                id: name_loeschen
+                col: 2
+                row: 3
+                multiline: False
+                foreground_color: 1,1,1,1
+                background_color: 1,1,1,0.05
+                font_size: 20
+                spacing: 5,5
+                
+
+        BoxLayout:
+            orientation: "vertical"
+            Label:
+                id: status_label
+                text: "Status: ----"
+                font_size: dp(20)
+                size_hint_y: None
+    
